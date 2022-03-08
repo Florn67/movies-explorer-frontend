@@ -1,13 +1,11 @@
 import "../src/vendor/normalize.css"
 import "../src/vendor/fonts/fonts.css"
 import './App.css';
-import AboutMe from './components/AboutMe/AboutMe';
-
+import Main from "./components/Main/Main";
 function App() {
   return (
     <div className="App">
-      <AboutMe/>
-      
+      <Main/>
     </div>
   );
 }

@@ -23,12 +23,7 @@ function AboutMe() {
         </div>
         <img alt="Аватар" className="about-me__avatar" src={avatar}></img>
       </div>
-      <p className="about-me__portfolio">Портфолио</p>
-      <nav className="about-me__links-to-sites">
-        <a className="about-me__link-to-site" href="#">Статичный сайт<button className="about-me__link-button">↗</button></a>
-        <a className="about-me__link-to-site" href="#">Адаптивный сайт<button className="about-me__link-button">↗</button></a>
-        <a className="about-me__link-to-site" href="#">Одностраничное приложение<button className="about-me__link-button">↗</button></a>
-      </nav>
+      
     </div>
   );
 }
