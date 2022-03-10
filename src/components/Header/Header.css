@@ -5,9 +5,31 @@
 }
 
 .header__logo {
-    margin: 18px 0;
-    width : 38px;
-    height: 38px;
+    margin      : 18px 0;
+    width       : 38px;
+    height      : 38px;
+    margin-right: 44px;
+}
+
+.header__logo-and-links {
+    display: flex;
+}
+
+.header__links {
+    display    : flex;
+    align-items: center;
+}
+
+.header__link {
+    margin         : 0 16px 0 0;
+    text-decoration: none;
+    font-family    : 'Inter', 'Arial', sans-serif;
+    font-style     : normal;
+    font-weight    : 500;
+    font-size      : 13px;
+    line-height    : 18px;
+
+    color: #000000;
 }
 
 .header__button {
@@ -22,8 +44,8 @@
 }
 
 .header__button_type_registration {
-    margin-right: 30px;
-    color       : #000000;
+    margin-right    : 30px;
+    color           : #000000;
     background-color: transparent;
 }
 

@@ -4,7 +4,7 @@ import "./AboutMe.css"
 
 function AboutMe() {
   return (
-    <div className="about-me">
+    <section className="about-me">
       <p className="about-me__student">Студент</p>
       <div className="about-me__info-container">
         <div className="about-me__text-container">
@@ -24,7 +24,7 @@ function AboutMe() {
         <img alt="Аватар" className="about-me__avatar" src={avatar}></img>
       </div>
       
-    </div>
+    </section>
   );
 }
 

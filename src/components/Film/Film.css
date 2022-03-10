@@ -1,0 +1,66 @@
+.film {
+    background-color: white;
+    width: 364px;
+    height: 271px;
+}
+.film__text-and-button{
+    padding: 14px 19px 14px 14px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.film__text-container{
+    
+}
+.film__name {
+    text-align: left;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style : normal;
+    font-weight: 500;
+    font-size  : 15px;
+    line-height: 18px;
+    margin: 0 0 9px 0;
+    color: #000000;
+}
+
+.film__duration {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style : normal;
+    font-weight: normal;
+    font-size  : 11px;
+    line-height: 13px;
+    text-align: left;
+    margin: 0;
+    color: #A0A0A0;
+}
+
+.film__button{
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+}
+
+.film__button-image{
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (max-width:768px) {
+    .film{
+        width: 339px;
+        height: 190px;
+    }
+    .film__text-and-button{
+        padding-right: 14px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .film{
+        width: 300px;
+        height: 236px;
+    }
+}

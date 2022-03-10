@@ -7,15 +7,3 @@
 }
 
 
-
-@media screen and (max-width: 768px) {
-  .test{
-    max-width: 668px
-  }
-}
-
-@media screen and (max-width: 550px){
-  .test{
-    max-width: 292px;
-  }
-}
