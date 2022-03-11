@@ -1,3 +1,6 @@
+.search-form{
+    padding-top: 80px;
+}
 .search-form__form {
     display         : flex;
     align-items     : center;

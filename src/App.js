@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import Main from "./components/Main/Main";
 import Movies from "./components/Movies/Movies.js";
 import SavedMovies from "./components/SavedMovies/SavedMovies";
+
 function App() {
   return (
     <div className="App">

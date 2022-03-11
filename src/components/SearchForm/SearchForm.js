@@ -3,12 +3,11 @@ import React, { useState, useEffect } from "react";
 import searchIcon from "../../images/searchIcon.svg";
 import findButton from "../../images/findButton.svg";
 function SearchForm() {
-  const [width, setWidth] = useState();
-
-  useEffect(() => {
-    window.addEventListener("resize", (_) => setWidth(window.screen.width));
-    setWidth(window.screen.width);
-  }, []);
+  const [width, setWidth] = useState( window.innerWidth)
+  window.addEventListener("resize", resizeInGallery)
+  function resizeInGallery() {
+    setWidth( window.innerWidth)
+  }
   return (
     <section className="search-form">
       <div className="searc-form__form-container">
