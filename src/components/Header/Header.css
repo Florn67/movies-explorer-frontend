@@ -33,13 +33,13 @@
 }
 
 .header__button {
-    padding    : 0;
-    border     : 0;
-    font-family: 'Inter', 'Arial', sans-serif;
-    font-style : normal;
-    font-weight: 500;
-    font-size  : 12px;
-    line-height: 16px;
+    padding         : 0;
+    border          : 0;
+    font-family     : 'Inter', 'Arial', sans-serif;
+    font-style      : normal;
+    font-weight     : 500;
+    font-size       : 12px;
+    line-height     : 16px;
     background-color: transparent;
 }
 
@@ -56,7 +56,88 @@
     padding      : 8px 20px;
 }
 
+.header__sidebar {
+    display         : none;
+    width           : 100vw;
+    height          : 100vh;
+    position        : absolute;
+    background-color: rgba(0, 0, 0, .3);
+    left            : 0;
+    top             : 0;
+    flex-direction  : row-reverse;
+    z-index         : 15;
+}
+
+.header__sidebar-container {
+    width           : 67%;
+    background-color: #fff;
+    display         : flex;
+    flex-direction  : column;
+}
+
+.header__close-button {
+    align-self      : flex-end;
+    width           : 22px;
+    height          : 22px;
+    border          : 0;
+    padding         : 0;
+    margin          : 22px 22px 105px 0;
+    background-color: transparent;
+}
+
+.header__sidebar-links {
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
+}
+
+.header__link_sidebar {
+    margin-bottom: 28px;
+    font-family  : 'Inter', 'Arial', sans-serif;
+    font-style   : normal;
+    font-weight  : 500;
+    font-size    : 18px;
+    line-height  : 22px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #000000;
+}
+
+.header__link:hover {
+    border-bottom: 3px solid black;
+}
+
+.header__sidebar-links-container {
+    display        : flex;
+    flex-direction : column;
+    justify-content: space-between;
+    align-items    : center;
+    height         : 100%;
+}
+
+.header__sidebar-account-button {
+    font-family     : 'Inter', 'Arial', sans-serif;
+    background-color: #F4F4F4;
+    border-radius   : 20px;
+    border          : 0;
+    width           : 100px;
+    height          : 32px;
+    font-style      : normal;
+    font-weight     : 500;
+    font-size       : 14px;
+    line-height     : 16px;
+    margin-bottom   : 99px;
+    /* identical to box height, or 114% */
+
+}
+
 @media screen and (max-width: 550px) {
+    .header__sidebar-container {
+        width: 100%;
+    }
+
     .header__button {
         font-size  : 10px;
         line-height: 16px;
