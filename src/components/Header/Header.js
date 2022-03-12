@@ -21,18 +21,20 @@ function Header(props) {
     <>
     <header className="header">
       <div className="header__logo-and-links">
+        <Link to="">
         <img alt="Лого" className="header__logo" src={logo}></img>
+        </Link>
         {props.type !== "main" && width < 769 ? (
           <></>
         ) : (
           <>
             <nav className="header__links">
-              <a href="#" className="header__link">
+              <Link to="/movies" className="header__link">
                 {props.films}
-              </a>
-              <a href="#" className="header__link">
+              </Link>
+              <Link to="/saved-movies" className="header__link">
                 {props.savedFilms}
-              </a>
+              </Link>
             </nav>
           </>
         )}
@@ -44,12 +46,16 @@ function Header(props) {
           </button>
         ) : (
           <>
+          <Link to="/sign-up">
             <button className="header__button header__button_type_registration">
               Регистрация
             </button>
+            </Link>
+            <Link to="/sign-in">
             <button className="header__button header__button_type_log-in">
               Войти
             </button>
+            </Link>
           </>
         )}
       </div>
@@ -63,13 +69,13 @@ function Header(props) {
       <div className="header__sidebar-links-container">
         <nav className="header__sidebar-links">
           <Link to="" className="header__link  header__link_sidebar">
-            {props.films}
+            Главная
           </Link>
-          <Link to="" className="header__link header__link_sidebar">
-            {props.savedFilms}
+          <Link to="/movies" className="header__link header__link_sidebar">
+           Фильмы
           </Link>
-          <Link to="" className="header__link header__link_sidebar">
-            Сохранненые фильмы
+          <Link to="/saved-movies" className="header__link header__link_sidebar">
+           Сохраненные фильмы
           </Link>
         </nav>
         <button className="header__sidebar-account-button">

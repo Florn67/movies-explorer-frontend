@@ -38,6 +38,9 @@
     padding-bottom : 19px;
     padding-bottom : 1px solid #E8E8E8;
 }
+.portfolio__link-to-site:hover{
+    text-decoration: underline;
+}
 .portfolio__link-button {
     padding         : 0;
     border          : 0;

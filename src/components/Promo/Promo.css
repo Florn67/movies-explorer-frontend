@@ -42,7 +42,9 @@
     color          : #000000;
     text-decoration: none;
 }
-
+.promo__link:hover {
+    text-decoration: underline;
+}
 @media screen and (max-width: 768px) {
     .promo__header {
         margin     : 350px 0 324px 0;

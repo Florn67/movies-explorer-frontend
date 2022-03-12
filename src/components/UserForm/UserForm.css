@@ -32,6 +32,11 @@
     margin-bottom: 40px;
 }
 
+.user-form__logo:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
 .user-form__input-container {
     border        : 0;
     padding       : 0;
@@ -66,7 +71,13 @@
     font-size       : 14px;
     line-height     : 17px;
     color           : #000000;
-    outline: none;
+
+}
+.user-form__input:hover{
+    outline: 1px solid #3456F3;
+}
+.user-form__input:focus{
+    outline: 1px solid #3456F3;
 }
 
 .user-form__input:last-of-type {

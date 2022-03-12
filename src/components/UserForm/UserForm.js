@@ -6,7 +6,9 @@ function UserForm(props) {
     <div className="user-form">
       <form className={`user-form__form user-form__form_type_${props.name}`}>
         <div className="user-form__logo-and-header">
-          <img className="user-form__logo" alt="Лого" src={logo}></img>
+          <Link to="">
+            <img className="user-form__logo" alt="Лого" src={logo}></img>
+          </Link>
           <h2
             className={`user-form__header user-form__header_type_${props.name}`}
           >

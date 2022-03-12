@@ -74,8 +74,13 @@
     margin-right   : 20px;
 }
 
-
-
+.about-me__link-to-hub:hover{
+    text-decoration: underline;
+}
+.about-me__avatar{
+    width: 270px;
+    height: 327px;
+}
 @media screen and (max-width: 768px) {
 
     .about-me__student {
@@ -105,6 +110,7 @@
 
     .about-me__avatar {
         margin-bottom: 40px;
+        
     }
 
     .about-me__info-container {
