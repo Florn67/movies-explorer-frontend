@@ -13,6 +13,7 @@
 .user-form__logo-and-header {
     display       : flex;
     flex-direction: column;
+    align-items: baseline;
 }
 
 .user-form__header {

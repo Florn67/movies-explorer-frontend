@@ -12,12 +12,13 @@ function SearchForm() {
     <section className="search-form">
       <div className="searc-form__form-container">
         <form className="search-form__form">
-          <fieldset className="search-form__form-fieldset">
+          <fieldset className="search-form__form-fieldset search-form__form-fieldset_type_input">
             <img alt="Иконка поиска" src={searchIcon}></img>
             <input
               className="search-form__form-input"
               name="searchFormFilm"
               placeholder="Фильм"
+              required
             ></input>
             {width < 550 ? (
               <button

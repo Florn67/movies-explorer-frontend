@@ -9,7 +9,7 @@ function SavedMovies() {
     <div className="saved-movies">
       <Header films={"Фильмы"} savedFilms={"Сохраненные фильмы"}/>
       <SearchForm/>
-      <MoviesCardList type="saved"/>
+      <MoviesCardList type="saved-movie"/>
       <Footer/>
     </div>
   );

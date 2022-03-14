@@ -43,6 +43,13 @@
     height: 30px;
     background-image: url('../../images/saveButton.svg');
 }
+.movies-card__button_type_saved-movie{
+    background-image: url("../../images/crossMark.svg");
+}
+.movies-card__button:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
 .movies-card__button_active{
     background-image: url("../../images/saveButtonActive.svg");
 }
