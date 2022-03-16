@@ -1,0 +1,16 @@
+.movies{
+    max-width: 1140px;
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .movies{
+    max-width: 668px
+  }
+}
+
+@media screen and (max-width: 550px){
+  .movies{
+    max-width: 292px;
+  }
+}

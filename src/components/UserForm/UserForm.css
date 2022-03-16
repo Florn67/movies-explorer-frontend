@@ -1,0 +1,151 @@
+.user-form {
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
+    padding-top   : 70px;
+}
+
+.user-form__form {
+    max-width: 396px;
+    width    : 100%;
+}
+
+.user-form__logo-and-header {
+    display       : flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.user-form__header {
+    text-align : left;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style : normal;
+    font-weight: 500;
+    font-size  : 24px;
+    line-height: 29px;
+    color      : #000000;
+    margin     : 0 0 40px 0;
+}
+
+.user-form__logo {
+    width        : 38px;
+    height       : 38px;
+    margin-bottom: 40px;
+}
+
+.user-form__logo:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.user-form__input-container {
+    border        : 0;
+    padding       : 0;
+    display       : flex;
+    flex-direction: column;
+    margin-bottom : 69px;
+    padding-bottom: 83px;
+  
+}
+
+.user-form__input-description {
+    text-align : left;
+    margin     : 0 0 5px 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style : normal;
+    font-weight: 400;
+    font-size  : 10px;
+    line-height: 12px;
+
+    color: #A0A0A0;
+}
+
+.user-form__input {
+    border          : 0;
+    border-bottom   : 1px solid #E8E8E8;
+    padding         : 0 0 10px 0;
+    margin          : 0 0 24px 0;
+    background-color: transparent;
+    font-style      : normal;
+    font-family     : 'Inter', 'Arial', sans-serif;
+    font-weight     : 400;
+    font-size       : 14px;
+    line-height     : 17px;
+    color           : #000000;
+
+}
+.user-form__input:hover{
+    outline: 1px solid #3456F3;
+}
+.user-form__input:focus{
+    outline: 1px solid #3456F3;
+}
+
+.user-form__input:last-of-type {
+    margin-bottom: 0;
+}
+
+.user-form__submit-button {
+    background-color: #3456F3;
+    font-family     : 'Inter', 'Arial', sans-serif;
+    font-style      : normal;
+    font-weight     : 500;
+    font-size       : 14px;
+    line-height     : 17px;
+    /* identical to box height */
+    width           : 100%;
+    height          : 45px;
+    text-align      : center;
+    margin-bottom   : 16px;
+    color           : #FFFFFF;
+}
+
+.user-form__link-line {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style : normal;
+    font-weight: 400;
+    font-size  : 14px;
+    line-height: 17px;
+    text-align : center;
+    color      : #A0A0A0;
+}
+
+.user-form__link {
+    text-decoration: none;
+    color          : #3456F3;
+}
+
+@media screen and (max-width: 768px) {
+    .user-form {
+        padding-top: 232px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .user-form {
+        padding-top: 56px;
+    }
+
+    .user-form__form {
+        max-width: 260px;
+    }
+
+    .user-form__logo-and-header {
+        align-items: center;
+    }
+
+    .user-form__logo {
+        margin-bottom: 50px;
+    }
+
+    .user-form__header {
+        margin-bottom: 80px;
+        font-size    : 24px;
+        line-height  : 29px;
+    }
+
+    .user-form__submit-button{
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
