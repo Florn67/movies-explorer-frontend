@@ -1,10 +1,38 @@
 import "./UserForm.css";
+import React, {useState} from 'react'
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 function UserForm(props) {
+  const [name, changeName] = React.useState("");
+  const [email, changeEmail] = React.useState("");
+  const [password, changePassword] = React.useState("");
+  function handleNameChange(e) {
+    changeName(e.target.value);
+  }
+  function handleEmailChange(e) {
+    changeEmail(e.target.value);
+  }
+  function handlePasswordChange(e) {
+    changePassword(e.target.value);
+  }
+  
   return (
     <div className="user-form">
-      <form className={`user-form__form user-form__form_type_${props.name}`}>
+      <form
+        onSubmit={
+          props.name === "login"
+            ? (evt) => {
+           
+                evt.preventDefault();
+                props.onLoginSubmit(email, password);
+              }
+            : (evt) => {
+              evt.preventDefault();
+             props.onRegisterSubmit(name, email, password);
+            }
+        }
+        className={`user-form__form user-form__form_type_${props.name}`}
+      >
         <div className="user-form__logo-and-header">
           <Link to="">
             <img className="user-form__logo" alt="Лого" src={logo}></img>
@@ -16,20 +44,26 @@ function UserForm(props) {
           </h2>
         </div>
         <fieldset className="user-form__input-container">
-          {props.name ==="register" ? <>
-          <span className="user-form__input-description">Имя</span>
-          <input
-            placeholder="Имя"
-            className="user-form__input user-form__input_value_name"
-            name="userFormName"
-            required
-          />
-          <span className="name-input-user-error user-form__input-error"></span>
-          </> : <></>}
+          {props.name === "register" ? (
+            <>
+              <span className="user-form__input-description">Имя</span>
+              <input
+                placeholder="Имя"
+                className="user-form__input user-form__input_value_name"
+                name="userFormName"
+                onChange={handleNameChange}
+                required
+              />
+              <span className="name-input-user-error user-form__input-error"></span>
+            </>
+          ) : (
+            <></>
+          )}
           <span className="user-form__input-description">E-mail</span>
           <input
             type="mail"
             placeholder="Email"
+            onChange={handleEmailChange}
             className="user-form__input user-form__input_value_url"
             name="userFormEmail"
             required
@@ -39,6 +73,7 @@ function UserForm(props) {
           <input
             type="password"
             placeholder="Пароль"
+            onChange={handlePasswordChange}
             className="user-form__input user-form_value_password"
             name="userFormPassword"
             required

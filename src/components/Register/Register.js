@@ -1,7 +1,7 @@
 import UserForm from "../UserForm/UserForm";
 import "./Register.css";
 
-function Register() {
+function Register(props) {
   return (
     <div className="register">
       <UserForm
@@ -11,6 +11,7 @@ function Register() {
         linkLineText="Уже зарегистрированы?"
         linkText="Войти"
         link="/sign-in"
+        onRegisterSubmit={props.onRegisterSubmit}
       />
     </div>
   );
