@@ -1,20 +1,24 @@
 import "./SearchForm.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import searchIcon from "../../images/searchIcon.svg";
 import findButton from "../../images/findButton.svg";
+import { useFormWithValidation } from "../../utils/FormValidator";
 function SearchForm(props) {
   const [width, setWidth] = useState(window.innerWidth);
-  const [movieName, setMovieName] = React.useState("");
-  const [movieType, setMovieType] = React.useState(false);
   window.addEventListener("resize", resizeInGallery);
   function resizeInGallery() {
     setWidth(window.innerWidth);
   }
-  function handleMovieChange(e){
-    setMovieName(e.target.value);
-  }
-  function handleTypeChange(e){
-    setMovieType(e.target.checked);
+  const { values, handleChange, errors } = useFormWithValidation();
+  function onSubmit(checkboxMovieTypeChecked) {
+    let searchName = values.movieName ?? "";
+    let searchType = values.movieType ?? false;
+    if (checkboxMovieTypeChecked !== undefined)
+      searchType = checkboxMovieTypeChecked;
+
+    localStorage.setItem("queryTextFound", searchName);
+    localStorage.setItem("movieTypeFound", searchType);
+    props.onSubmit(searchName, searchType);
   }
   return (
     <section className="search-form">
@@ -23,18 +27,22 @@ function SearchForm(props) {
           className="search-form__form"
           onSubmit={(evt) => {
             evt.preventDefault();
-            props.onSubmit(movieName, movieType);
+            onSubmit();
           }}
         >
           <fieldset className="search-form__form-fieldset search-form__form-fieldset_type_input">
             <img alt="Иконка поиска" src={searchIcon}></img>
             <input
               className="search-form__form-input"
-              name="searchFormFilm"
+              name="movieName"
               placeholder="Фильм"
+              onChange={handleChange}
               required
-              value={movieName}
-              onChange={handleMovieChange}
+              defaultValue={
+                props.type !== "saved-movie"
+                  ? localStorage.getItem("queryTextFound")
+                  : ""
+              }
             ></input>
             {width < 550 ? (
               <button
@@ -47,7 +55,7 @@ function SearchForm(props) {
               <></>
             )}
           </fieldset>
-          <fieldset className="search-form__form-fieldset search-form__form-fieldset_type_button">{movieType}
+          <fieldset className="search-form__form-fieldset search-form__form-fieldset_type_button">
             {width > 550 ? (
               <button type="submit" className="search-form__form-button">
                 <img alt="Поиск" src={findButton}></img>
@@ -59,16 +67,24 @@ function SearchForm(props) {
               <input
                 className="search-form__form-checkbox"
                 type="checkbox"
-                name="searchFormType"
+                name="movieType"
                 id="short-film"
-                checked={movieType}
-                onChange={handleTypeChange}
+                onInput={(evt) => {
+                  handleChange(evt);
+                  onSubmit(evt.target.checked);
+                }}
+                defaultChecked={
+                  localStorage.getItem("movieTypeFound") === "true"
+                    ? true
+                    : false
+                }
               ></input>
               <span className="search-form__slider"></span>
             </label>
-            <label for="short-film">Короткометражка</label>
+            <label htmlFor="short-film">Короткометражка</label>
           </fieldset>
         </form>
+        <span className="search-form__input-error">{errors.movieName}</span>
       </div>
     </section>
   );

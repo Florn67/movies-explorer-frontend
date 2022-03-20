@@ -3,21 +3,26 @@ import React, { useState, useEffect } from "react";
 import film from "../../images/filmImage.png";
 import mainApi from "../../utils/MainApi.";
 function MoviesCard(props) {
-  const [activeFilmCardButton, changeActiveMoviesCardButton] = useState(false);
+  const [activeFilmCardButton, changeActiveMoviesCardButton] = useState(
+    props.data.saved
+  );
+  const [cardId, setCardId] = useState('')
   function changeMovieStatus(evt) {
     changeActiveMoviesCardButton(!activeFilmCardButton);
 
-    // console.log('evt :>> ', evt.target.classList.contains('movies-card__button'));
-
+   
     mainApi.saveMovie(props.data).catch((err) => {
-      console.log('props.data.image :>> ', props.data.url);
       console.log("err :>> ", err);
     });
   }
   function deleteMovie(id) {
+    console.log('props.data :>> ', props.data);
     mainApi.deleteMovie(id).catch((err) => {
       console.log("err :>> ", err);
     });
+    if (props.type === "saved-movie") {
+      props.setSavedMovies(props.savedMovies.filter((item) => item._id !== id));
+    }
   }
   if (props.data.nameEN === null) {
     props.data.nameEN = "null";
@@ -35,6 +40,16 @@ function MoviesCard(props) {
           onClick={
             props.type !== "saved-movie"
               ? (evt) => {
+                  if (activeFilmCardButton) {
+                    mainApi.getMovies().then((res) => {
+                      res.data.forEach((item) => {
+                        if (item.movieId===props.data.id){
+                          deleteMovie(item._id)
+                        }
+                      })
+                    })
+                    
+                  }
                   changeMovieStatus(evt);
                 }
               : () => {
@@ -49,13 +64,17 @@ function MoviesCard(props) {
               : "movies-card__button movies-card__button_type_saved-movie"
           }
         >
-          {/* <img className="movies-card__button-image" alt="Сохранить" src={saveButton}></img> */}
+       
         </button>
       </div>
       <img
         alt="Постер"
         className="movies-card__image"
-        src={props.type!=="saved-movie"?`https://api.nomoreparties.co/${props.imgUrl}`:`${props.data.image}`}
+        src={
+          props.type !== "saved-movie"
+            ? `https://api.nomoreparties.co/${props.imgUrl}`
+            : `${props.data.image}`
+        }
       ></img>
     </article>
   );

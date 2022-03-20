@@ -8,42 +8,69 @@ import Preloader from "../Preloader/Preloader";
 import React, { useState, useEffect } from "react";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi.";
-function Movies() {
-  const [moviesList, changeMoviesList] = React.useState([]);
-  
+function Movies(props) {
+  const [moviesList, changeMoviesList] = React.useState(
+    JSON.parse(localStorage.getItem("moviesFound")) ?? []
+  );
+  const [page, setPage] = React.useState(0);
   const [preloaderDisplay, setPreloaderDisplay] = React.useState("none");
   let foundMovies = [];
- 
-  // mainApi
-  //   .signIn("test4@mail.ru", "123456789012")
-  //   .then((res) => console.log("res :>> ", res));
+
+
   function onSubmit(movieName, movieType) {
     setPreloaderDisplay("block");
     changeMoviesList([]);
     foundMovies = [];
-    moviesApi.getMovies().then((res) => {
-      res.forEach((item) => {
-        if (
-          item.nameRU.includes(movieName) &&
-          movieType === true &&
-          item.duration <= 40
-        ) {
-          foundMovies.push(item);
-        } else if (item.nameRU.includes(movieName) && movieType === false) {
-          foundMovies.push(item);
-        }
+    moviesApi.getMovies().then((allMovies) => {
+      mainApi.getMovies().then((savedMovies) => {
+ 
+        allMovies.forEach((item) => {
+          if (
+            item.nameRU.toLowerCase().includes(movieName.toLowerCase()) &&
+            movieType === true && //если короткометражка то true
+            item.duration <= 40
+          ) {
+            foundMovies.push(item);
+          } else if (item.nameRU.toLowerCase().includes(movieName.toLowerCase()) && movieType === false) {
+            foundMovies.push(item);
+          }
+        });
+
+        foundMovies = foundMovies.map((movie) => ({
+          ...movie,
+          saved:
+            savedMovies.data.findIndex(
+              (savedMovie) => savedMovie.movieId === movie.id
+            ) === -1
+              ? false
+              : true,
+        }));
+    
+        changeMoviesList(foundMovies);
+        console.log("foundMovies :>> ", foundMovies);
+        localStorage.setItem("moviesFound", JSON.stringify(foundMovies));
+        setPreloaderDisplay("none");
+        setPage(0);
       });
-      changeMoviesList(foundMovies);
-      setPreloaderDisplay("none");
     });
   }
-  
+
   return (
     <div className="movies">
-      <Header films={"Фильмы"} savedFilms={"Сохраненные фильмы"} />
-      <SearchForm onSubmit={onSubmit}/>
+      <Header
+        loggedIn={props.loggedIn}
+        films={"Фильмы"}
+        savedFilms={"Сохраненные фильмы"}
+      />
+      <SearchForm onSubmit={onSubmit} movies={moviesList} type="found-movie" />
       <Preloader display={preloaderDisplay} />
-      <MoviesCardList movies={moviesList} />
+      <MoviesCardList
+        page={page}
+        setPage={setPage}
+        movies={moviesList}
+        type="found-movie"
+        savedMovies={[]}
+      />
       <Footer />
     </div>
   );

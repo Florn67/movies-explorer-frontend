@@ -63,13 +63,31 @@ class MainApi {
       
     })
   }
+  checkToken(token) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      
+    }).then(handleResponse);
+  }
+  changeProfile(name, email) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name: name,
+        email: email,
+      }),
+    }).then(handleResponse);
+  }
 }
 
 const mainApi = new MainApi({
-  baseUrl: "http://localhost:3001",
+  baseUrl: " http://movies-explorer-aleksandr.nomoredomains.work",
   headers: {
-    // http://movies-explorer-aleksandr.nomoredomains.work
-    // authorization: "1b5ba567-e5a7-4e1f-bced-8207d5690e1d",
     "Content-Type": "application/json",
     authorization: localStorage.getItem("token"),
   },

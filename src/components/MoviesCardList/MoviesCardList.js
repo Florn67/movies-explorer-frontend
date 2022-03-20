@@ -8,7 +8,6 @@ function MoviesCardList(props) {
     setWidth(window.innerWidth);
   }
 
-  const [page, setPage] = React.useState(0);
   let allMovies = 0;
   return (
     <section className="movies-card-list">
@@ -17,9 +16,9 @@ function MoviesCardList(props) {
           props.movies
             .filter(
               (item, i, array) =>
-                (width < 480 && i < 5 + page * 2) ||
-                (width > 480 && width < 1280 && i < 8 + page * 2) ||
-                (width > 1280 && i < 12 + page * 3)
+                (width < 480 && i < 5 + props.page * 2) ||
+                (width > 480 && width < 1280 && i < 8 + props.page * 2) ||
+                (width > 1280 && i < 12 + props.page * 3)
             )
             .map((item, i) => {
               allMovies += 1;
@@ -33,13 +32,14 @@ function MoviesCardList(props) {
                 />
               );
             })}
+       
         {props.type === "saved-movie" &&
           props.savedMovies
             .filter(
               (item, i, array) =>
-                (width < 480 && i < 5 + page * 2) ||
-                (width > 480 && width < 1280 && i < 8 + page * 2) ||
-                (width > 1280 && i < 12 + page * 3)
+                (width < 480 && i < 5 + props.page * 2) ||
+                (width > 480 && width < 1280 && i < 8 + props.page * 2) ||
+                (width > 1280 && i < 12 + props.page * 3)
             )
             .map((item, i) => {
               allMovies += 1;
@@ -51,7 +51,8 @@ function MoviesCardList(props) {
                   duration={item.duration}
                   imgUrl={item.image}
                   type={props.type}
-                  
+                  setSavedMovies={props.setSavedMovies}
+                  savedMovies={props.savedMovies}
                 />
               );
             })}
@@ -60,7 +61,7 @@ function MoviesCardList(props) {
         <button
           className="movies-card-list__button"
           onClick={() => {
-            setPage(page + 1);
+            props.setPage(props.page + 1);
           }}
         >
           Ещё
@@ -68,6 +69,7 @@ function MoviesCardList(props) {
       ) : (
         <></>
       )}
+      {(props.savedMovies.length===0 && props.type==='saved-movie') ||  (props.type !== "saved-movie" && props.movies.length===0) ? <span>Ничего не найдено</span> : <></>}
     </section>
   );
 }

@@ -34,7 +34,10 @@
     cursor: pointer;
     color: #000000;
 }
-
+.header__button_type_account{
+    background-color: #F4F4F4 !important;
+    border-radius: 20px;
+}
 .header__button {
     padding         : 0;
     border          : 0;
