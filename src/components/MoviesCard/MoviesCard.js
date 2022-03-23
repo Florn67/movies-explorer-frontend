@@ -6,17 +6,15 @@ function MoviesCard(props) {
   const [activeFilmCardButton, changeActiveMoviesCardButton] = useState(
     props.data.saved
   );
-  const [cardId, setCardId] = useState('')
+  const [cardId, setCardId] = useState("");
   function changeMovieStatus(evt) {
     changeActiveMoviesCardButton(!activeFilmCardButton);
 
-   
     mainApi.saveMovie(props.data).catch((err) => {
       console.log("err :>> ", err);
     });
   }
   function deleteMovie(id) {
-    console.log('props.data :>> ', props.data);
     mainApi.deleteMovie(id).catch((err) => {
       console.log("err :>> ", err);
     });
@@ -43,12 +41,11 @@ function MoviesCard(props) {
                   if (activeFilmCardButton) {
                     mainApi.getMovies().then((res) => {
                       res.data.forEach((item) => {
-                        if (item.movieId===props.data.id){
-                          deleteMovie(item._id)
+                        if (item.movieId === props.data.id) {
+                          deleteMovie(item._id);
                         }
-                      })
-                    })
-                    
+                      });
+                    });
                   }
                   changeMovieStatus(evt);
                 }
@@ -63,19 +60,19 @@ function MoviesCard(props) {
               ? "movies-card__button"
               : "movies-card__button movies-card__button_type_saved-movie"
           }
-        >
-       
-        </button>
+        ></button>
       </div>
-      <img
-        alt="Постер"
-        className="movies-card__image"
-        src={
-          props.type !== "saved-movie"
-            ? `https://api.nomoreparties.co/${props.imgUrl}`
-            : `${props.data.image}`
-        }
-      ></img>
+      <a target="_blank" href={props.trailerLink}>
+        <img
+          alt="Постер"
+          className="movies-card__image"
+          src={
+            props.type !== "saved-movie"
+              ? `https://api.nomoreparties.co/${props.imgUrl}`
+              : `${props.data.image}`
+          }
+        ></img>
+      </a>
     </article>
   );
 }

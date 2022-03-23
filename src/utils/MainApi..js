@@ -53,6 +53,7 @@ class MainApi {
         nameEN: data.nameEN,
         thumbnail: `https://api.nomoreparties.co/${data.image.url}`,
         movieId: data.id,
+        owner: data.owner,
       }),
     }).then(handleResponse);
   }
@@ -83,10 +84,24 @@ class MainApi {
       }),
     }).then(handleResponse);
   }
+  getUser() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
+    })
+      .then(handleResponse)
+      .then((result) => {
+        return {
+          name: result.data.name,
+          about: result.data.about,
+          avatarUrl: result.data.avatar,
+          _id: result.data._id,
+        };
+      });
+  }
 }
 
 const mainApi = new MainApi({
-  baseUrl: " http://movies-explorer-aleksandr.nomoredomains.work",
+  baseUrl: "http://movies-explorer-aleksandr.nomoredomains.work",
   headers: {
     "Content-Type": "application/json",
     authorization: localStorage.getItem("token"),

@@ -1,51 +1,63 @@
-
 import "./SavedMovies.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-
 import React, { useState, useEffect } from "react";
 import mainApi from "../../utils/MainApi.";
+
 function SavedMovies(props) {
-  let savedMovies = [];
-   const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(0);
   const [savedMoviesList, changeSavedMoviesList] = React.useState([]);
+  let array=[]
   React.useEffect(() => {
     mainApi.getMovies().then((res) => {
-      res.data.forEach((item) => {
-        savedMovies.push(item);
-      });
-      changeSavedMoviesList(savedMovies);
-     console.log('"test" :>> ', "test");
+     res.data.forEach((item) => {
+       console.log('item :>> ', item);
+       if(item.owner===props.userId){
+         array.push(item)
+       }
+     })
+     changeSavedMoviesList(array)
     });
   }, []);
 
   function onSubmit(movieName, movieType) {
-    changeSavedMoviesList([]);
-    savedMovies = [];
-    mainApi.getMovies().then((res) => {
-      res.data.forEach((item) => {
-        if (
-          item.nameRU.toLowerCase().includes(movieName.toLowerCase()) &&
-          movieType === true && //если короткометражка то true
-          item.duration <= 40
-        ) {
-          savedMovies.push(item);
-        } else if (item.nameRU.toLowerCase().includes(movieName.toLowerCase()) && movieType === false) {
-          savedMovies.push(item);
-        }
-      });
-      changeSavedMoviesList(savedMovies);
-      console.log('savedMovies :>> ', savedMovies);
+    return mainApi.getMovies().then((res) => {
+      const result = res.data
+        .filter(
+          // Проверка на совпадение названия
+          (item) => item.nameRU.toLowerCase().includes(movieName.toLowerCase())
+        )
+        .filter(
+          // Проверка на короткометражку
+          (item) => (movieType === true && item.duration <= 40) || !movieType
+        );
+
+      changeSavedMoviesList(result);
     });
   }
   return (
     <div className="saved-movies">
-      <Header loggedIn={props.loggedIn} films={"Фильмы"} savedFilms={"Сохраненные фильмы"}/>
-      <SearchForm onSubmit={onSubmit} type="saved-movie" savedMovies={savedMoviesList}/>
-      <MoviesCardList movies={[]} page={page} setSavedMovies={changeSavedMoviesList} savedMovies={savedMoviesList} type="saved-movie"/>
-      <Footer/>
+      <Header
+        loggedIn={props.loggedIn}
+        films={"Фильмы"}
+        savedFilms={"Сохраненные фильмы"}
+      />
+      <SearchForm
+        onSubmit={onSubmit}
+        type="saved-movie"
+        savedMovies={savedMoviesList}
+      />
+      <MoviesCardList
+        movies={[]}
+        page={page}
+        setPage={setPage}
+        setSavedMovies={changeSavedMoviesList}
+        savedMovies={savedMoviesList}
+        type="saved-movie"
+      />
+      <Footer />
     </div>
   );
 }

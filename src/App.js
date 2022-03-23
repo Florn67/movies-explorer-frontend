@@ -2,7 +2,7 @@ import "../src/vendor/normalize.css";
 import "../src/vendor/fonts/fonts.css";
 import "./App.css";
 import React from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Main from "./components/Main/Main";
 import Movies from "./components/Movies/Movies.js";
@@ -15,15 +15,18 @@ import mainApi from "./utils/MainApi.";
 import Preloader from "./components/Preloader/Preloader";
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [profile, setProfile] = React.useState({
     email: "guest",
     name: "guest",
   });
+  const [userId, setUserId] = React.useState('')
+  mainApi.getUser().then(res => setUserId(res._id))
+
   const [profileFetchResult, setProfileFetchResult] = React.useState("");
   const history = useHistory();
   function onLoginSubmit(mail, password) {
-    mainApi
+    return mainApi
       .signIn(mail, password)
       .then((data) => {
         localStorage.setItem("token", data.token);
@@ -35,7 +38,7 @@ function App() {
       });
   }
   function onRegisterSubmit(name, mail, password) {
-    mainApi
+    return mainApi
       .signUp(name, mail, password)
       .then(() => {
         history.push("/movies");
@@ -46,7 +49,7 @@ function App() {
   }
 
   function onProfileSubmit(name, email) {
-    mainApi
+    return mainApi
       .changeProfile(name, email)
       .then((res) => {
         console.log(res);
@@ -66,18 +69,17 @@ function App() {
         setLoggedIn(true);
         // if (profile.name !== res.data.name || profile.email !== res.data.email)
         setProfile({ email: res.data.email, name: res.data.name });
-        console.log("loggedIn :>> ", loggedIn);
       })
 
       .catch((err) => {
         console.log(`Ошибка.....: ${err}`);
       })
       .finally(() => {
-        setLoading(true);
+        setLoading(false);
       });
   }, [loggedIn]);
 
-  if (!loading) return <Preloader />;
+  if (loading) return <Preloader />;
   return (
     <div className="App">
       <Switch>
@@ -85,22 +87,31 @@ function App() {
           <Main loggedIn={loggedIn} />
         </Route>
         <ProtectedRoute loggedIn={loggedIn} path="/movies">
-          <Movies loggedIn={loggedIn} />
+          <Movies userId={userId} loggedIn={loggedIn} />
         </ProtectedRoute>
         <ProtectedRoute loggedIn={loggedIn} path="/saved-movies">
-          <SavedMovies loggedIn={loggedIn} />
+          <SavedMovies userId={userId} loggedIn={loggedIn} />
         </ProtectedRoute>
         <Route path="/sign-up">
-          <Register onRegisterSubmit={onRegisterSubmit} />
+          {loggedIn ? (
+            <Redirect to="/" />
+          ) : (
+            <Register onRegisterSubmit={onRegisterSubmit} />
+          )}
         </Route>
         <Route path="/sign-in">
-          <Login onLoginSubmit={onLoginSubmit} />
+          {loggedIn ? (
+            <Redirect to="/" />
+          ) : (
+            <Login onLoginSubmit={onLoginSubmit} />
+          )}
         </Route>
         <ProtectedRoute loggedIn={loggedIn} path="/profile">
           <Profile
             result={profileFetchResult}
             onProfileSubmit={onProfileSubmit}
             profile={profile}
+            setLoggedIn={setLoggedIn}
           />
         </ProtectedRoute>
         <Route path="*">
