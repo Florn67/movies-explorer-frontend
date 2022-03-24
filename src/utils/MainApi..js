@@ -102,7 +102,7 @@ class MainApi {
 
 const mainApi = new MainApi({
   // http://movies-explorer-aleksandr.nomoredomains.work
-  baseUrl: "http://localhost:3001",
+  baseUrl: "http://movies-explorer-aleksandr.nomoredomains.work",
   headers: {
     "Content-Type": "application/json",
     authorization: localStorage.getItem("token"),
