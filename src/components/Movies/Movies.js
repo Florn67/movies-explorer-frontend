@@ -5,7 +5,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi.";
 function Movies(props) {
@@ -15,7 +15,7 @@ function Movies(props) {
   const [page, setPage] = React.useState(0);
   const [preloaderDisplay, setPreloaderDisplay] = React.useState("none");
   let foundMovies = [];
-  console.log('props.userId :>> ', props.userId);
+  // console.log('props.userId :>> ', props.userId);
   function onSubmit(movieName, movieType) {
     setPreloaderDisplay("block");
     changeMoviesList([]);
@@ -29,22 +29,21 @@ function Movies(props) {
             movieType === true && //если короткометражка то true
             item.duration <= 40
           ) {
-           
             foundMovies.push(item);
           } else if (
             item.nameRU.toLowerCase().includes(movieName.toLowerCase()) &&
-            (movieType === false || movieType==="")
+            (movieType === false || movieType === "")
           ) {
             foundMovies.push(item);
           }
         });
-        console.log('savedMovies :>> ', savedMovies);
+        console.log("savedMovies :>> ", savedMovies);
         foundMovies = foundMovies.map((movie) => ({
           ...movie,
           saved:
             (savedMovies.data.findIndex(
-              (savedMovie) => savedMovie.movieId === movie.id && savedMovie.owner === props.userId
-            ) === -1) 
+              (savedMovie) => (savedMovie.movieId === movie.id) && (savedMovie.owner===props.userId)
+            ) === -1)
               ? false
               : true,
         }));

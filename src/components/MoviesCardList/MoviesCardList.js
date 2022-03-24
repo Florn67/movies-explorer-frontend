@@ -8,7 +8,6 @@ function MoviesCardList(props) {
   function resizeInGallery() {
     setWidth(window.innerWidth);
   }
-
   let allMovies = 0;
 
   const filter = (_, i) =>

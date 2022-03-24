@@ -20,8 +20,8 @@ function App() {
     email: "guest",
     name: "guest",
   });
-  const [userId, setUserId] = React.useState('')
-  mainApi.getUser().then(res => setUserId(res._id))
+  const [userId, setUserId] = React.useState("");
+  mainApi.getUser().then((res) => setUserId(res._id));
 
   const [profileFetchResult, setProfileFetchResult] = React.useState("");
   const history = useHistory();
@@ -63,23 +63,25 @@ function App() {
   }
 
   React.useEffect(() => {
-    mainApi
-      .checkToken(localStorage.getItem("token"))
-      .then((res) => {
-        setLoggedIn(true);
-        // if (profile.name !== res.data.name || profile.email !== res.data.email)
-        setProfile({ email: res.data.email, name: res.data.name });
-      })
+    if (!loggedIn)
+      mainApi
+        .checkToken(localStorage.getItem("token"))
+        .then((res) => {
+          setLoggedIn(true);
+          // if (profile.name !== res.data.name || profile.email !== res.data.email)
+          setProfile({ email: res.data.email, name: res.data.name });
+        })
 
-      .catch((err) => {
-        console.log(`Ошибка.....: ${err}`);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+        .catch((err) => {
+          console.log(`Ошибка.....: ${err}`);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
   }, [loggedIn]);
 
   if (loading) return <Preloader />;
+
   return (
     <div className="App">
       <Switch>

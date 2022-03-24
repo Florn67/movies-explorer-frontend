@@ -1,26 +1,65 @@
 import "./MoviesCard.css";
-import React, { useState, useEffect } from "react";
-import film from "../../images/filmImage.png";
+import React, { useState } from "react";
 import mainApi from "../../utils/MainApi.";
+
 function MoviesCard(props) {
   const [activeFilmCardButton, changeActiveMoviesCardButton] = useState(
     props.data.saved
   );
-  const [cardId, setCardId] = useState("");
-  function changeMovieStatus(evt) {
-    changeActiveMoviesCardButton(!activeFilmCardButton);
 
-    mainApi.saveMovie(props.data).catch((err) => {
-      console.log("err :>> ", err);
-    });
+  function changeMovieStatus() {
+    const newStatus = !activeFilmCardButton;
+    changeActiveMoviesCardButton(newStatus);
+    console.log('props.data :>> ', props.data);
+    if (newStatus)
+      mainApi
+        .saveMovie(props.data)
+        .then(() => {
+          let newLocalStorageFilms = [];
+          if (props.type !== "saved-movie") {
+            newLocalStorageFilms = JSON.parse(
+              localStorage.getItem("moviesFound")
+            ).map((x) =>
+              x.id === props.data.id ? { ...x, saved: newStatus } : x
+            );
+          }
+          console.log("changeMovieStatus", newLocalStorageFilms);
+          localStorage.setItem(
+            "moviesFound",
+            JSON.stringify(newLocalStorageFilms)
+          );
+        })
+        .catch((err) => {
+          console.log("err :>> ", err);
+        });
   }
-  function deleteMovie(id) {
-    mainApi.deleteMovie(id).catch((err) => {
-      console.log("err :>> ", err);
-    });
-    if (props.type === "saved-movie") {
-      props.setSavedMovies(props.savedMovies.filter((item) => item._id !== id));
-    }
+
+  function deleteMovie(_id, movieId) {
+    mainApi
+      .deleteMovie(_id)
+      .then(() => {
+        const changeLocalStorage = () => {
+          let newLocalStorageFilms = JSON.parse(
+            localStorage.getItem("moviesFound")
+          ).map((x) => (x.id === props.data.id ? { ...x, saved: false } : x));
+
+          localStorage.setItem(
+            "moviesFound",
+            JSON.stringify(newLocalStorageFilms)
+          );
+        };
+
+        if (props.type === "saved-movie") {
+          let newLocalStorageFilms = props.savedMovies.filter(
+            (item) => item._id !== _id
+          );
+          props.setSavedMovies(newLocalStorageFilms);
+        }
+        changeLocalStorage();
+      })
+      .catch((err) => {
+        console.log("err :>> ", err);
+      });
   }
   if (props.data.nameEN === null) {
     props.data.nameEN = "null";
@@ -37,19 +76,21 @@ function MoviesCard(props) {
         <button
           onClick={
             props.type !== "saved-movie"
-              ? (evt) => {
+              ? // Страница с фильмами
+                (evt) => {
                   if (activeFilmCardButton) {
                     mainApi.getMovies().then((res) => {
                       res.data.forEach((item) => {
                         if (item.movieId === props.data.id) {
-                          deleteMovie(item._id);
+                          deleteMovie(item._id, item.movieId);
                         }
                       });
                     });
                   }
                   changeMovieStatus(evt);
                 }
-              : () => {
+              : // страница с сохранёнными фильмами
+                () => {
                   deleteMovie(props.data._id);
                 }
           }
