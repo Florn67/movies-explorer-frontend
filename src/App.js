@@ -42,8 +42,8 @@ function App() {
     return mainApi
       .signIn(mail, password)
       .then(async ({ token }) => {
-        console.group("onLoginSubmit → signIn");
-        localStorage.setItem("token", token);      
+
+        localStorage.setItem("token", token);
 
         //* Получаем профиль
         await mainApi
@@ -69,7 +69,7 @@ function App() {
               console.log(`signIn→getMovies Ошибка.....: ${err}`)
             );
         });
-        console.groupEnd();
+  
         setLoggedIn(true);
         history.push("/movies");
       })
@@ -126,24 +126,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>
-        <table>
-          <tbody>
-            <tr>
-              <td>userId</td>
-              <td>{userId}</td>
-            </tr>
-            <tr>
-              <td>saved-movies</td>
-              <td>{JSON.stringify(savedMoviesList.map((x) => x.owner))}</td>
-            </tr>
-            <tr>
-              <td>profile</td>
-              <td>{profile.email + " " + profile.name}</td>
-            </tr>
-          </tbody>
-        </table>
-      </h1>
       <Switch>
         <Route exact path="/">
           <Main loggedIn={loggedIn} />

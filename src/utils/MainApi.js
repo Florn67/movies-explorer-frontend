@@ -50,7 +50,6 @@ export class MainApi {
     }).then(handleResponse);
   }
   checkToken(token) {
-    if (!token) 
     return fetch(`${MainApi._baseUrl}/users/me`, {
       method: "GET",
       headers: {
