@@ -7,7 +7,7 @@ import Preloader from "../Preloader/Preloader";
 
 import React from "react";
 import moviesApi from "../../utils/MoviesApi";
-import mainApi from "../../utils/MainApi.";
+import mainApi from "../../utils/MainApi";
 function Movies(props) {
   const [moviesList, changeMoviesList] = React.useState(
     JSON.parse(localStorage.getItem("moviesFound")) ?? []
@@ -16,6 +16,8 @@ function Movies(props) {
   const [preloaderDisplay, setPreloaderDisplay] = React.useState("none");
   let foundMovies = [];
   // console.log('props.userId :>> ', props.userId);
+  
+  
   function onSubmit(movieName, movieType) {
     setPreloaderDisplay("block");
     changeMoviesList([]);
@@ -23,7 +25,6 @@ function Movies(props) {
     return moviesApi.getMovies().then((allMovies) => {
       mainApi.getMovies().then((savedMovies) => {
         allMovies.forEach((item) => {
-          console.log("userUD", props.userId, savedMovies);
           if (
             item.nameRU.toLowerCase().includes(movieName.toLowerCase()) &&
             movieType === true && //если короткометражка то true
@@ -37,7 +38,6 @@ function Movies(props) {
             foundMovies.push(item);
           }
         });
-        console.log("savedMovies :>> ", savedMovies);
         foundMovies = foundMovies.map((movie) => ({
           ...movie,
           saved:

@@ -3,9 +3,11 @@ import React from "react";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 import { useFormWithValidation } from "../../utils/FormValidator";
+const validator = require("email-validator");
 function UserForm(props) {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
   const [loading, setLoading] = React.useState(false);
+  const emailPattern = `(?:[a-z0-9!#$%&'*+\/=?^_{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])`;
   const endLoading = () => setLoading(false);
   return (
     <div className="user-form">
@@ -63,7 +65,12 @@ function UserForm(props) {
           <input
             type="email"
             placeholder="Email"
-            onChange={handleChange}
+            onChange={(event) => {
+              event.target.setCustomValidity(
+                validator.validate(event.target.value) ? "" : "Неправильная почта"
+              );
+              handleChange(event);
+            }}
             className={
               errors.email !== ""
                 ? "user-form__input user-form_value_url user-form__input_type_wrong"
@@ -72,6 +79,7 @@ function UserForm(props) {
             name="email"
             required
             disabled={loading}
+            pattern={emailPattern}
           />
           <span className="url-input-user-error user-form__input-error">
             {errors.email}

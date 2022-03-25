@@ -4,21 +4,21 @@ import Footer from "../Footer/Footer";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import React, { useState, useEffect } from "react";
-import mainApi from "../../utils/MainApi.";
+import mainApi from "../../utils/MainApi";
 
 function SavedMovies(props) {
   const [page, setPage] = React.useState(0);
-  const [savedMoviesList, changeSavedMoviesList] = React.useState([]);
+  
   let array=[]
   React.useEffect(() => {
     mainApi.getMovies().then((res) => {
      res.data.forEach((item) => {
-       console.log('item :>> ', item);
+   
        if(item.owner===props.userId){
          array.push(item)
        }
      })
-     changeSavedMoviesList(array)
+     props.changeSavedMoviesList(array)
     });
   }, []);
 
@@ -34,7 +34,7 @@ function SavedMovies(props) {
           (item) => (movieType === true && item.duration <= 40) || !movieType
         );
 
-      changeSavedMoviesList(result);
+      props.changeSavedMoviesList(result);
     });
   }
   return (
@@ -47,14 +47,14 @@ function SavedMovies(props) {
       <SearchForm
         onSubmit={onSubmit}
         type="saved-movie"
-        savedMovies={savedMoviesList}
+        savedMovies={props.savedMoviesList}
       />
       <MoviesCardList
         movies={[]}
         page={page}
         setPage={setPage}
-        setSavedMovies={changeSavedMoviesList}
-        savedMovies={savedMoviesList}
+        setSavedMovies={props.changeSavedMoviesList}
+        savedMovies={props.savedMoviesList}
         type="saved-movie"
       />
       <Footer />

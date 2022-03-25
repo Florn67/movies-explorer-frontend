@@ -5,15 +5,33 @@ const handleResponse = (res) => {
   return Promise.reject(`Error: ${res.status}`);
 };
 
-class MainApi {
+export class MainApi {
+  static _headers = {};
+  static _baseUrl = {};
+
   constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
+    MainApi._baseUrl = baseUrl;
+    MainApi._headers = headers;
   }
+  //*============ Взаимодействие с хедерами
+  _updateHeaders() {
+    MainApi._headers = {
+      "Content-Type": "application/json",
+      authorization: localStorage.getItem("token"),
+    };
+  }
+  clearToken() {
+    MainApi._headers = {
+      "Content-Type": "application/json",
+      authorization: null,
+    };
+  }
+
+  //*============ Запросы на аутентификацию
   signIn(email, password) {
-    return fetch(`${this._baseUrl}/signin`, {
+    return fetch(`${MainApi._baseUrl}/signin`, {
       method: "POST",
-      headers: this._headers,
+      headers: MainApi._headers,
       body: JSON.stringify({
         password: password,
         email: email,
@@ -21,9 +39,9 @@ class MainApi {
     }).then(handleResponse);
   }
   signUp(name, email, password) {
-    return fetch(`${this._baseUrl}/signup`, {
+    return fetch(`${MainApi._baseUrl}/signup`, {
       method: "POST",
-      headers: this._headers,
+      headers: MainApi._headers,
       body: JSON.stringify({
         name: name,
         password: password,
@@ -31,16 +49,27 @@ class MainApi {
       }),
     }).then(handleResponse);
   }
-  getMovies() {
-    return fetch(`${this._baseUrl}/movies`, {
+  checkToken(token) {
+    if (!token) 
+    return fetch(`${MainApi._baseUrl}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(handleResponse);
+  }
+  //*============ Запросы на фильмы
+  getMovies() {
+    return fetch(`${MainApi._baseUrl}/movies`, {
+      method: "GET",
+      headers: MainApi._headers,
     }).then(handleResponse);
   }
   saveMovie(data) {
-    return fetch(`${this._baseUrl}/movies`, {
+    return fetch(`${MainApi._baseUrl}/movies`, {
       method: "POST",
-      headers: this._headers,
+      headers: MainApi._headers,
       body: JSON.stringify({
         country: data.country,
         director: data.director,
@@ -57,27 +86,17 @@ class MainApi {
       }),
     }).then(handleResponse);
   }
-  deleteMovie(id){
-    return fetch(`${this._baseUrl}/movies/${id}`, {
+  deleteMovie(id) {
+    return fetch(`${MainApi._baseUrl}/movies/${id}`, {
       method: "DELETE",
-      headers: this._headers,
-      
-    })
+      headers: MainApi._headers,
+    });
   }
-  checkToken(token) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      
-    }).then(handleResponse);
-  }
+  //*============ Запрос на профиль
   changeProfile(name, email) {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return fetch(`${MainApi._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: MainApi._headers,
       body: JSON.stringify({
         name: name,
         email: email,
@@ -85,8 +104,10 @@ class MainApi {
     }).then(handleResponse);
   }
   getUser() {
-    return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+    if (MainApi._headers.authorization === null) this._updateHeaders();
+
+    return fetch(`${MainApi._baseUrl}/users/me`, {
+      headers: MainApi._headers,
     })
       .then(handleResponse)
       .then((result) => {

@@ -1,6 +1,6 @@
 import "./MoviesCard.css";
 import React, { useState } from "react";
-import mainApi from "../../utils/MainApi.";
+import mainApi from "../../utils/MainApi";
 
 function MoviesCard(props) {
   const [activeFilmCardButton, changeActiveMoviesCardButton] = useState(
@@ -10,7 +10,6 @@ function MoviesCard(props) {
   function changeMovieStatus() {
     const newStatus = !activeFilmCardButton;
     changeActiveMoviesCardButton(newStatus);
-    console.log('props.data :>> ', props.data);
     if (newStatus)
       mainApi
         .saveMovie(props.data)
@@ -23,7 +22,6 @@ function MoviesCard(props) {
               x.id === props.data.id ? { ...x, saved: newStatus } : x
             );
           }
-          console.log("changeMovieStatus", newLocalStorageFilms);
           localStorage.setItem(
             "moviesFound",
             JSON.stringify(newLocalStorageFilms)
