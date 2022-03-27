@@ -32,11 +32,16 @@ function SavedMovies(props) {
         .filter(
           // Проверка на короткометражку
           (item) => (movieType === true && item.duration <= 40) || !movieType
-        );
-
+        )
+        .filter(
+          // Проверка на пользователя
+          (item) => (item.owner === props.userId)
+        ); 
       props.changeSavedMoviesList(result);
+   
     });
   }
+
   return (
     <div className="saved-movies">
       <Header
