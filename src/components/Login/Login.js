@@ -1,7 +1,9 @@
+
 import UserForm from "../UserForm/UserForm";
 import "./Login.css";
 
-function Login() {
+function Login(props) {
+  
   return (
     <div className="login">
       <UserForm
@@ -11,6 +13,7 @@ function Login() {
         linkLineText="Еще не зарегистрированы?"
         linkText="Регистрация"
         link="/sign-up"
+        onLoginSubmit={props.onLoginSubmit}
       />
     </div>
   );

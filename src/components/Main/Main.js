@@ -6,10 +6,10 @@ import Portfolio from "../Portfolio/Portfolio";
 import AboutProject from "../AboutProject/AboutProject";
 import Techs from "../Techs/Techs";
 import Footer from "../Footer/Footer";
-function Main() {
+function Main(props) {
   return (
     <main className="main">
-      <Header type="main"/>
+      <Header loggedIn={props.loggedIn} type="main"/>
       <Promo/>
       <AboutProject/>
       <Techs/>
